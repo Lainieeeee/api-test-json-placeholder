@@ -30,8 +30,10 @@ if (getPostBtn) {
         // 停止表單的預設(自動提交)行為，避免網頁重新整理
         e.preventDefault();
 
+        // 1. 如果點擊按鈕，執行以下操作
         try {
-            // 1. 使用 GET 來取得數據
+
+            // 1-1. 使用 GET 來取得數據
             const response = await fetch(`${apiUrl}/posts`, {
                 method: "GET",
                 headers: {
@@ -39,15 +41,19 @@ if (getPostBtn) {
                 }
             });
 
-            // 2. 回應成功時的處理
+            // 1-2. 根據伺服器回應的狀況處理
             if (response.ok) {
+
                 // 從伺服器回傳的資料改成 JSON 格式
                 const result = await response.json();
+
                 // 先清空 <ul> 裡面的元素
                 postList.innerHTML = "";
+
                 // 呼叫 postItems 函式來建立 <li> 結構
                 postItems(result);
                 console.log("success", result);
+
             } else {
                 const errorData = await response.json();
                 console.error("失敗:", errorData);
@@ -119,14 +125,19 @@ if (postPostBtn) {
                     body: postContent
                 })
             });
-            // 3-2. 回應成功時的處理
+
+            // 3-2. 根據伺服器回應的狀況處理
             if (response.ok) {
+
                 // 從伺服器回傳的資料改成 JSON 格式
                 const result = await response.json();
+
                 // 清空輸入內容
                 postTitleInput.value = "";
                 postContentInput.value = "";
+
                 alert("傳送成功！", result);
+
             } else {
                 const errorData = await response.json();
                 console.error("失敗:", errorData);
@@ -156,8 +167,10 @@ if (deleteBtn) {
             return alert("請輸入刪除ID！");
         }
 
-        // 3. 先確認該ID是否存在
+        // 3. 發送請求到伺服器，執行以下操作
         try {
+
+            // 3-1. 使用 DELETE 請求資料送到伺服器
             const checkResponse = await fetch(`${apiUrl}/posts/${deleteId}`, {
                 method: "GET",
                 headers: {
@@ -165,26 +178,25 @@ if (deleteBtn) {
                 }
             });
 
-            // IDが存在するかどうか確認
+            // 3-2. 檢查ID是否存在
             if (!checkResponse.ok) {
                 return alert(`錯誤：ID ${deleteId} 不存在`);
             }
 
-            // IDが存在した場合、削除処理を実行
+            // 3-3. 如果ID存在，執行刪除請求
             const response = await fetch(`${apiUrl}/posts/${deleteId}`, {
                 method: "DELETE"
             });
 
-            // 回應成功時的處理
+            // 3-4. 根據伺服器回應的狀況處理
             if (response.ok) {
-                // jsonplaceholder の DELETE は通常、内容を返さないので、結果を取得して処理
+
+                // 取得伺服器回傳的資料（jsonholder API 不會回傳內容，所以用 catch 避免錯誤）
                 const result = await response.json().catch(() => ({}));
                 console.log(result);
 
-                // 削除成功のメッセージ
                 alert(`成功：ID ${deleteId} 刪除成功`);
-
-                // ??
+                // 清空輸入ID資料
                 document.getElementById("deleteId").value = "";
 
             } else {
@@ -221,7 +233,8 @@ if (getPartPostBtn) {
 
         // 3. 如果輸入正確，執行以下操作
         try {
-            // 1. 使用 GET 來取得數據
+
+            // 3-1. 使用 GET 來取得數據
             const response = await fetch(`${apiUrl}/posts/${getId}`, {
                 method: "GET",
                 headers: {
@@ -229,7 +242,7 @@ if (getPartPostBtn) {
                 }
             });
 
-            // 2. 回應成功時的處理
+            // 3-2. 回應成功時的處理
             if (response.ok) {
 
                 // 從伺服器回傳的資料改成 JSON 格式
@@ -242,11 +255,11 @@ if (getPartPostBtn) {
             } else {
                 const errorData = await response.json();
                 if (errorData.message) {
-                    // サーバーからのエラーメッセージがあれば表示
+                    // 顯示伺服器提供的錯誤訊息
                     alert(`錯誤：${errorData.message}`);
                 } else {
-                    // エラーメッセージがない場合は一般的なエラーメッセージを表示
-                    alert("無法找到該ID的資料！");
+                    // 沒有提供錯誤訊息就顯示預設的
+                    alert("無法找到該ID的資料");
                 }
                 console.error("失敗:", errorData);
             }
@@ -259,23 +272,23 @@ if (getPartPostBtn) {
 // 顯示文章資料結構/修改資料功能 PUT
 function getPartPostItems(result, getId) {
 
-    getPartItem.classList.add('mt-6');
-    // 同じIDで何度もクリックすると要素が複製されるのを防ぐ
-    getPartItem.innerHTML = "";
+    // getPartItem
+    getPartItem.classList.add('mt-6'); // 加上樣式
+    getPartItem.innerHTML = ""; // 每次按下按鈕都先清空內容，避免重複新增
 
-    // User ID（非表示）作成
+    // 建立 User ID　※這次在隱藏
     const userIdPara = document.createElement('p');
     userIdPara.classList.add('hidden');
     userIdPara.innerHTML = `<strong>User ID:</strong> ${result.userId}`;
     getPartItem.appendChild(userIdPara);
 
-    // Post ID（非表示）作成
+    // 建立 Post ID　※這次在隱藏
     const postIdPara = document.createElement('p');
     postIdPara.classList.add('hidden');
     postIdPara.innerHTML = `<strong>Post ID:</strong> ${result.id}`;
     getPartItem.appendChild(postIdPara);
 
-    // 標題部分作成
+    // 建立 標題部分
     const postTitleDiv = document.createElement('div');
     postTitleDiv.classList.add('mb-4');
 
@@ -295,7 +308,7 @@ function getPartPostItems(result, getId) {
 
     getPartItem.appendChild(postTitleDiv);
 
-    // 內容部分作成
+    // 建立 內容部分
     const postContentDiv = document.createElement('div');
     postContentDiv.classList.add('mb-4');
 
@@ -314,7 +327,7 @@ function getPartPostItems(result, getId) {
 
     getPartItem.appendChild(postContentDiv);
 
-    // 修正ボタン作成
+    // 建立 修正按鈕
     const putBtn = document.createElement('button');
     putBtn.type = 'button';
     putBtn.id = 'putBtn';
@@ -336,7 +349,7 @@ function getPartPostItems(result, getId) {
         // 2. 檢查輸入欄位是否空
         if (!postIdPara || !postId || !postTitle || !postContent) {
             alert("所有欄位都必須填寫！");
-            // 元の入力値に戻す
+            // 如果有空欄位，將輸入欄位還原成原始資料
             postTitleInput.value = result.title;
             postContentTextarea.value = result.body;
             return;
@@ -344,7 +357,8 @@ function getPartPostItems(result, getId) {
 
         // 3. 如果輸入正確，執行以下操作
         try {
-            // 1. 使用 PUT 來取得數據
+
+            // 3-1. 使用 PUT 來取得數據
             const response = await fetch(`${apiUrl}/posts/${getId}`, {
                 method: "PUT",
                 headers: {
@@ -356,7 +370,7 @@ function getPartPostItems(result, getId) {
                 })
             });
 
-            // 2. 回應成功時的處理
+            // 3-2. 回應成功時的處理
             if (response.ok) {
 
                 // 從伺服器回傳的資料改成 JSON 格式
