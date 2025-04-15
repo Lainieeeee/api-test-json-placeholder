@@ -1,13 +1,69 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/src/output.css" rel="stylesheet">
+  <link rel="shortcut icon" href="/src/javascript.svg">
+  <link rel="apple-touch-icon" href="/src/javascript.svg">
+  <title>{JSON} Placeholder API</title>
+</head>
+<body>
+
+  <!-- main -->
+  <main>
+    <div class="container mx-auto px-6 py-16">
+      <!-- h1 -->
+      <h1 class="text-4xl text-center font-bold mb-10">{JSON} Placeholder API</h1>
+      <!-- 顯示資料功能 GET -->
+      <div class="mb-10 pb-10 border-dashed border-b">
+        <button id="getPostBtn" class="bg-black text-avocado text-md px-4 py-2 rounded-md cursor-pointer hover:opacity-75 duration-300 block m-auto">顯示所有資料</button>
+        <ul id="getPost"></ul>
+      </div>
+      <!-- 新增資料功能 POST -->
+      <div class="mb-10 pb-10 border-dashed border-b">
+        <form action="" class="md:max-w-1/2 mx-auto">
+          <div class="mb-4">
+            <label for="postTitle" class="block mb-2 font-bold">標題</label>
+            <input type="text" id="postTitle" class="outline-none border border-secondary p-2 w-full rounded-md placeholder:text-secondary inputTransModeOverride" placeholder="請輸入標題">
+          </div>
+          <div class="mb-4">
+            <label for="postContent" class="block mb-2 font-bold">內容</label>
+            <textarea name="" id="postContent" class="outline-none border border-secondary p-2 w-full rounded-md placeholder:text-secondary h-40 resize-none inputTransModeOverride" placeholder="請輸入內容"></textarea>
+          </div>
+          <button id="postPostBtn" class="bg-black text-avocado text-md px-4 py-2 rounded-md cursor-pointer hover:opacity-75 duration-300 block mx-auto mb-4">新增資料</button>
+        </form>
+      </div>
+      <!-- 資料刪除功能 -->
+      <div class="mb-10 pb-10 border-dashed border-b">
+        <form>
+          <div class="flex justify-center">
+            <div class="text-center me-6">
+                <label for="deleteId" class="me-4 font-bold">ID</label>
+                <input type="number" id="deleteId" class="outline-none border border-secondary p-2 rounded-md inputTransModeOverride" placeholder="請輸入ID" value="1">
+            </div>
+            <button type="button" id="deleteBtn" class="bg-black text-avocado text-md px-4 py-2 rounded-md cursor-pointer hover:opacity-75 duration-300 inline-block">刪除資料</button>
+          </div>
+        </form>
+      </div>
+      <!-- 部分資料顯示功能 GET/資料修改功能 PUT -->
+      <div class="mb-10 pb-10 border-dashed border-b">
+        <form>
+          <div class="flex justify-center">
+              <div class="text-center me-6">
+                  <label for="getId" class="me-4 font-bold">ID</label>
+                  <input type="number" id="getId" class="outline-none border border-secondary p-2 rounded-md inputTransModeOverride" placeholder="請輸入ID" value="1">
+              </div>
+              <button type="button" id="getPartPostBtn" class="bg-black text-avocado text-md px-4 py-2 rounded-md cursor-pointer hover:opacity-75 duration-300 inline-block">顯示部分資料</button>
+          </div>
+          <div id="getPartItem" class="md:max-w-1/2 mx-auto"></div>
+      </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- js -->
+  <script type="module" src="/src/main.js"></script>
+
+</body>
 </html>
