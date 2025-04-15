@@ -1,21 +1,5 @@
-// ============================================
-// 共用 變數
-// ============================================
-// API URL
-const apiUrl = "https://jsonplaceholder.typicode.com";
-
-// ============================================
-// 共用 helper function
-// ============================================
-// 錯誤處理
-function handleError(error, message) {
-    console.error(error);
-    alert(message);  // 顯示錯誤訊息
-}
-
-
-
-
+// 從 utils.js 檔案中匯入共用的變數與函式
+import { apiUrl, handleError } from './utils.js';
 
 
 /* ====================================================
