@@ -10,7 +10,7 @@ theme customize
 ====================================================*/
 @theme {
   --color-black:     #212529; /*編集*/
-  --color-secondary: #6c757d; /*新規追加*/
+  --color-secondary: #cecece; /*新規追加*/
   --color-avocado:   #e4f23d; /*新規追加*/
 }
 
@@ -40,7 +40,20 @@ base styles
 components styles　※Button、Card、Modal etc..
 ====================================================*/
 @layer components {
-
+  .inputTransModeOverride {
+    &:-webkit-autofill {
+      box-shadow: 0 0 0 30px theme('colors.white') inset;
+    }
+    &:-webkit-autofill:hover {
+      box-shadow: 0 0 0 30px theme('colors.white') inset;
+    }
+    &:-webkit-autofill:focus {
+      box-shadow: 0 0 0 30px theme('colors.white') inset;
+    }
+    &:-webkit-autofill:active {
+      box-shadow: 0 0 0 30px theme('colors.white') inset;
+    }
+  }
 }
 
 /*====================================================
